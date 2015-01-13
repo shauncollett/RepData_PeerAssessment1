@@ -1,9 +1,4 @@
----
-title: "Reproducible Research: Peer Assessment 1"
-output: 
-html_document:
-keep_md: true
----
+#Reproducible Research: Peer Assessment 1
 
 ## Loading and preprocessing the data
 
@@ -12,38 +7,9 @@ To help make our lives easier, we're using `dpylyr`, `lubridate`, `ggplot2` and 
 
 ```r
 library(dplyr)
-```
-
-```
-## 
-## Attaching package: 'dplyr'
-## 
-## The following object is masked from 'package:stats':
-## 
-##     filter
-## 
-## The following objects are masked from 'package:base':
-## 
-##     intersect, setdiff, setequal, union
-```
-
-```r
 library(lubridate)
 library(ggplot2)
 library(reshape)
-```
-
-```
-## 
-## Attaching package: 'reshape'
-## 
-## The following object is masked from 'package:lubridate':
-## 
-##     stamp
-## 
-## The following object is masked from 'package:dplyr':
-## 
-##     rename
 ```
 
 To download and process the data, we start by unzipping the ZIP file existing in
@@ -248,3 +214,10 @@ qplot(Interval, Steps, data=compare_weekend, facets=Weekpart~., geom="line",
 ```
 
 ![plot of chunk unnamed-chunk-11](figure/unnamed-chunk-11-1.png) 
+
+Finally I created the md, html and figure files using `knit2html()`.  Here's an example, although it's commented out so RStudio's knitR doesn't execute it.
+
+
+```r
+#knit2html("PA1_template.Rmd")
+```
