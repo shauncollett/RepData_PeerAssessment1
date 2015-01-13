@@ -13,6 +13,7 @@ To help make our lives easier, we're using `dpylyr`, `lubridate` and `ggplot2` p
 library(dplyr)
 library(lubridate)
 library(ggplot2)
+library(reshape)
 ```
 
 To download and process the data, we start by unzipping the ZIP file existing in
@@ -120,9 +121,15 @@ median(data_by_date_imputted$Steps)
 
 Do these values differ from the estimates from the first part of the assignment? What is the impact of imputing missing data on the estimates of the total daily number of steps?
 
-
+Based on the graph below, we see very little impact to the overall result after imputting data.  It does appear the regression line flattens a bit and the standard deviation narrows with imputation.
 ```{r}
-#TODO: Create a plot that compares data_by_date vs. data_by_date_imputted.  We should merge the data sets and create side-by-side histograms.
+compare_imputted_clean <- merge(data_by_date, data_by_date_imputted, 
+                                by="Date", all.y=TRUE)
+names(compare_imputted_clean) <- c("Date", "Clean.Steps", "Imputted.Steps")
+melted <- melt(compare_imputted_clean, id="Date")
+qplot(Date, value, data=melted, facets=.~variable, 
+      geom=c("point","smooth"), method="lm",
+      ylab="Steps")
 ```
 
 ## Are there differences in activity patterns between weekdays and weekends?
@@ -130,4 +137,14 @@ For this part the weekdays() function may be of some help here. Use the dataset 
 
 1. Create a new factor variable in the dataset with two levels – “weekday” and “weekend” indicating whether a given date is a weekday or weekend day.
 
+We already did this in the data processing step (#1).
+
 2. Make a panel plot containing a time series plot (i.e. type = "l") of the 5-minute interval (x-axis) and the average number of steps taken, averaged across all weekday days or weekend days (y-axis). See the README file in the GitHub repository to see an example of what this plot should look like using simulated data.
+
+```{r}
+compare_weekend <- aggregate(data_imput_missing[, "steps"], 
+                    by=list(data_imput_missing$interval, data_imput_missing$weekpart), 
+                    FUN=mean)
+names(compare_weekend) <- c("Interval", "Weekpart", "Steps")
+qplot(Interval, Steps, data=compare_weekend, facets=Weekpart~., geom="line")
+```
