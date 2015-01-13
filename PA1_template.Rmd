@@ -159,3 +159,9 @@ names(compare_weekend) <- c("Interval", "Weekpart", "Steps")
 qplot(Interval, Steps, data=compare_weekend, facets=Weekpart~., geom="line",
       main="Average Steps per 5-Minute Interval Across Weekends and Weekdays")
 ```
+
+Finally I created the md, html and figure files using `knit2html()`.  Here's an example, although it's commented out so RStudio's knitR doesn't execute it.
+
+```{r}
+#knit2html("PA1_template.Rmd")
+```
